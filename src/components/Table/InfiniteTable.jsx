@@ -67,6 +67,8 @@ const InfiniteTable = () => {
         }
     }, [rowVirtualizer.getVirtualItems(), dates.length, loadMoreBefore, loadMoreAfter]);
 
+    const virtualItems = rowVirtualizer.getVirtualItems();
+
     // Обработчик поиска по дате
     const handleDateSearch = (dateString) => {
         const targetDate = new Date(dateString);
@@ -81,7 +83,6 @@ const InfiniteTable = () => {
         }
     };
 
-    const virtualItems = rowVirtualizer.getVirtualItems();
     const totalSize = rowVirtualizer.getTotalSize();
 
     // ... весь предыдущий код до return
@@ -126,9 +127,6 @@ const InfiniteTable = () => {
                 >
                     {virtualItems.map((virtualRow) => {
                         const date = dates[virtualRow.index];
-
-                        // Временный лог
-                        console.log('virtualRow.index:', virtualRow.index, 'date:', date?.toISOString().split('T')[0]);
 
                         return (
                             <div

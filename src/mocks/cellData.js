@@ -3,7 +3,7 @@ export const mockCellData =
     {
         "data": [
             {
-                "date": "01.10.2025",
+                "date": "01.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -42,7 +42,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "02.10.2025",
+                "date": "02.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -68,7 +68,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "03.10.2025",
+                "date": "03.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -105,7 +105,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "04.10.2025",
+                "date": "04.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -142,7 +142,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "05.10.2025",
+                "date": "05.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -180,7 +180,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "06.10.2025",
+                "date": "06.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -206,7 +206,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "07.10.2025",
+                "date": "07.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -233,7 +233,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "08.10.2025",
+                "date": "08.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -270,7 +270,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "09.10.2025",
+                "date": "09.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -307,7 +307,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "10.10.2025",
+                "date": "10.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -344,7 +344,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "11.10.2025",
+                "date": "11.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -372,7 +372,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "12.10.2025",
+                "date": "12.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -409,7 +409,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "13.10.2025",
+                "date": "13.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -447,7 +447,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "14.10.2025",
+                "date": "14.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -474,7 +474,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "15.10.2025",
+                "date": "15.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -511,7 +511,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "16.10.2025",
+                "date": "16.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -548,7 +548,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "17.10.2025",
+                "date": "17.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -585,7 +585,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "18.10.2025",
+                "date": "18.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -623,7 +623,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "19.10.2025",
+                "date": "19.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -650,7 +650,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "20.10.2025",
+                "date": "20.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -676,7 +676,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "21.10.2025",
+                "date": "21.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -713,7 +713,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "22.10.2025",
+                "date": "22.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -750,7 +750,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "23.10.2025",
+                "date": "23.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -787,7 +787,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "24.10.2025",
+                "date": "24.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -815,7 +815,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "25.10.2025",
+                "date": "25.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -853,7 +853,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "26.10.2025",
+                "date": "26.11.2025",
                 "columns": [
                     {
                         "headerId": "station2",
@@ -880,7 +880,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "27.10.2025",
+                "date": "27.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -917,7 +917,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "28.10.2025",
+                "date": "28.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -954,7 +954,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "29.10.2025",
+                "date": "29.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -991,7 +991,7 @@ export const mockCellData =
                 ]
             },
             {
-                "date": "30.10.2025",
+                "date": "30.11.2025",
                 "columns": [
                     {
                         "headerId": "station1",
@@ -1038,7 +1038,13 @@ export const getCellData = (date, headerId) => {
     const [year, month, day] = isoStr.split('-');
     const dateStr = `${day}.${month}.${year}`;
 
-    return mockCellData[dateStr]?.[headerId] || null;
+    // Ищем данные для этой даты
+    const dayData = mockCellData.data.find(item => item.date === dateStr);
+    if (!dayData) return null;
+
+    // Ищем данные для этого заголовка в колонках этого дня
+    const columnData = dayData.columns.find(col => col.headerId === headerId);
+    return columnData || null;
 };
 
 // Проверка: нужно ли пропустить ячейку из-за rowspan с предыдущих дат
@@ -1058,7 +1064,12 @@ export const shouldSkipCellDueToRowspan = (date, headerId, allDates) => {
         const prevIsoStr = prevDate.toISOString().split('T')[0];
         const [year, month, day] = prevIsoStr.split('-');
         const prevDateStr = `${day}.${month}.${year}`;
-        const prevCellData = mockCellData[prevDateStr]?.[headerId];
+        
+        // Ищем данные для предыдущей даты
+        const prevDayData = mockCellData.data.find(item => item.date === prevDateStr);
+        if (!prevDayData) continue;
+        
+        const prevCellData = prevDayData.columns.find(col => col.headerId === headerId);
 
         if (prevCellData && prevCellData.rowspan > i) {
             return true;
@@ -1074,10 +1085,14 @@ export const shouldSkipCellDueToColspan = (date, headerIndex, leafHeaders) => {
     const [year, month, day] = isoStr.split('-');
     const dateStr = `${day}.${month}.${year}`;
 
+    // Ищем данные для этой даты
+    const dayData = mockCellData.data.find(item => item.date === dateStr);
+    if (!dayData) return false;
+
     // Проверяем все ячейки слева от текущей на этой же дате
     for (let i = 0; i < headerIndex; i++) {
         const leftHeader = leafHeaders[i];
-        const leftCellData = mockCellData[dateStr]?.[leftHeader.id];
+        const leftCellData = dayData.columns.find(col => col.headerId === leftHeader.id);
 
         if (leftCellData && leftCellData.colspan > 1) {
             const spanEnd = i + leftCellData.colspan;
@@ -1093,5 +1108,22 @@ export const shouldSkipCellDueToColspan = (date, headerIndex, leafHeaders) => {
 // Функция для загрузки данных (имитация API)
 export const fetchCellDataBatch = async (startDate, endDate) => {
     await new Promise(resolve => setTimeout(resolve, 300));
-    return mockCellData;
+    
+    // Конвертируем даты в формат DD.MM.YYYY
+    const startDateStr = startDate.toISOString().split('T')[0];
+    const endDateStr = endDate.toISOString().split('T')[0];
+    
+    console.log(`Fetching data for range: ${startDateStr} to ${endDateStr}`);
+    
+    // Фильтруем данные по диапазону дат
+    const filteredData = mockCellData.data.filter(dayData => {
+        const dayDateStr = dayData.date.split('.').reverse().join('-'); // DD.MM.YYYY -> YYYY-MM-DD
+        return dayDateStr >= startDateStr && dayDateStr <= endDateStr;
+    });
+    
+    console.log(`Found ${filteredData.length} days of data`);
+    
+    return {
+        data: filteredData
+    };
 };

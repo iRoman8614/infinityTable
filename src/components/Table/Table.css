@@ -139,6 +139,12 @@
     position: relative;
 }
 
+/* Grid ячейка */
+.grid-cell {
+    position: relative;
+    min-height: 100%;
+}
+
 /* Пропущенная ячейка (для rowspan/colspan) */
 .table-cell--skip {
     visibility: hidden;
@@ -204,6 +210,9 @@
 .table-cell--placeholder {
     position: relative;
     min-height: 100%;
+    background: transparent;
+    visibility: hidden;
+    pointer-events: none;
 }
 
 /* Скроллбары */

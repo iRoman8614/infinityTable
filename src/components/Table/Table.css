@@ -1,0 +1,317 @@
+/* Контейнер таблицы */
+.table-container {
+    padding: 20px;
+    max-width: 100%;
+    margin: 0 auto;
+}
+
+/* Информационная панель */
+.table-info {
+    background: #f5f5f5;
+    padding: 15px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.table-info p {
+    margin: 0;
+    font-size: 14px;
+}
+
+/* Wrapper таблицы */
+.table-wrapper {
+    height: 600px;
+    overflow: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: white;
+    position: relative;
+}
+
+/* Многоуровневые заголовки */
+.table-header-multi {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    background: white;
+    border-bottom: 2px solid #357abd;
+    display: grid;
+}
+
+/* Ячейка заголовка */
+.header-cell {
+    padding: 10px 12px;
+    font-weight: 600;
+    font-size: 13px;
+    border-right: 1px solid rgba(255, 255, 255, 0.3);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    position: relative;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    min-height: 40px;
+}
+
+/* Ячейка даты в заголовке */
+.header-cell--date {
+    background: #4a90e2 !important;
+    color: white !important;
+    position: sticky;
+    left: 0;
+    z-index: 11;
+    border-right: 2px solid #357abd;
+    justify-content: center;
+    min-width: 250px;
+    max-width: 250px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Уровни заголовков */
+.header-cell--level-0 {
+    font-size: 14px;
+    font-weight: 700;
+}
+
+.header-cell--level-1 {
+    font-size: 13px;
+}
+
+.header-cell--level-2 {
+    font-size: 12px;
+}
+
+.header-cell--level-3 {
+    font-size: 12px;
+}
+
+/* Имя заголовка */
+.header-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+/* Строка таблицы */
+.table-row {
+    display: flex;
+    position: relative;
+}
+
+/* Ячейка таблицы */
+.table-cell {
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    box-sizing: border-box;
+}
+
+/* Ячейка с датой */
+.table-cell--date {
+    position: sticky;
+    left: 0;
+    z-index: 5;
+    background: white;
+    border-right: 2px solid #ddd;
+    border-bottom: 1px solid #eee;
+    min-width: 250px;
+    max-width: 250px;
+    justify-content: flex-start;
+    font-weight: 500;
+}
+
+/* Контейнер ячеек */
+.table-row-cells {
+    flex: 1;
+    display: grid;
+    position: relative;
+}
+
+/* Пропущенная ячейка (для rowspan/colspan) */
+.table-cell--skip {
+    visibility: hidden;
+    pointer-events: none;
+}
+
+/* Ячейка с данными */
+.table-cell--data {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    position: relative;
+    box-sizing: border-box;
+}
+
+/* Ячейка с rowspan (абсолютное позиционирование) */
+.table-cell--rowspan {
+    font-weight: 600;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-right: 2px solid #fff;
+    border-bottom: 2px solid #fff;
+    box-sizing: border-box;
+    pointer-events: auto !important;
+}
+
+/* Пустая ячейка - БЕЗ ГРАНИЦ */
+.table-cell--empty {
+    color: #999;
+    background: transparent;
+}
+
+.cell-value {
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: uppercase;
+    position: relative;
+    z-index: 1;
+}
+
+/* Кликабельная ячейка */
+.table-cell--clickable {
+    cursor: pointer;
+    transition: opacity 0.2s;
+    user-select: none;
+}
+
+.table-cell--clickable:hover {
+    opacity: 0.9;
+}
+
+.table-cell--clickable:active {
+    opacity: 0.8;
+}
+
+/* Placeholder для ячейки с rowspan */
+.table-cell--placeholder {
+    position: relative;
+    min-height: 100%;
+}
+
+/* Скроллбары */
+.table-wrapper::-webkit-scrollbar {
+    width: 12px;
+    height: 12px;
+}
+
+.table-wrapper::-webkit-scrollbar-track {
+    background: #f1f1f1;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 6px;
+}
+
+.table-wrapper::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Поиск по дате */
+.date-search {
+    position: relative;
+    margin-left: 10px;
+}
+
+.date-search-button {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    color: white;
+    width: 32px;
+    height: 32px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.date-search-button:hover {
+    background: rgba(255, 255, 255, 0.3);
+    transform: scale(1.05);
+}
+
+.date-search-popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    margin-top: 8px;
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    gap: 8px;
+    z-index: 100;
+    min-width: 280px;
+}
+
+.date-search-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+.date-search-input:focus {
+    border-color: #4a90e2;
+    box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.date-search-submit {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+.date-search-submit:hover:not(:disabled) {
+    background: #357abd;
+}
+
+.date-search-submit:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+}
+
+.date-search-close {
+    background: #f44336;
+    color: white;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.2s;
+}
+
+.date-search-close:hover {
+    background: #d32f2f;
+}

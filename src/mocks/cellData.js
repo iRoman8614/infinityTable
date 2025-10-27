@@ -1040,6 +1040,7 @@ export const getCellData = (date, headerId) => {
 
     // Ищем данные для этой даты
     const dayData = mockCellData.data.find(item => item.date === dateStr);
+
     if (!dayData) return null;
 
     // Ищем данные для этого заголовка в колонках этого дня

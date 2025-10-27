@@ -1,13 +1,182 @@
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>infinite-table</title>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.jsx"></script>
-  </body>
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtualized Table Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body>
+<!-- Web Component -->
+<virtualized-table></virtualized-table>
+
+<script>
+  // Ждем загрузки и инициализации Web Component
+  window.addEventListener('load', function() {
+    setTimeout(function() {
+      // Установка Data Provider
+      VirtualizedTableAPI.setDataProvider(async (startDate, direction, batchSize) => {
+        console.log('DataProvider:', startDate, direction, batchSize);
+
+        // Здесь ваш API запрос
+        // const response = await fetch('/api/data', {...});
+        // return response.text();
+
+        // Мок данные для теста
+        const mockData = {
+          data: [
+            {
+              date: "01.11.2025",
+              columns: [
+                {
+                  headerId: "station1_detail1",
+                  value: "П",
+                  color: "#ff5722",
+                  rowspan: 2,
+                  colspan: 1,
+                  draggable: true
+                },
+                {
+                  headerId: "station2_detail1",
+                  value: "Р",
+                  color: "#4caf50",
+                  rowspan: 1,
+                  colspan: 1,
+                  draggable: true
+                },
+                {
+                  headerId: "station2_detail2",
+                  value: "М",
+                  color: "#2196f3",
+                  rowspan: 1,
+                  colspan: 1,
+                  draggable: true
+                },
+                {
+                  headerId: "station3_detail1",
+                  value: "Р",
+                  color: "#9c27b0",
+                  rowspan: 1,
+                  colspan: 1,
+                  draggable: false
+                }
+              ]
+            },
+            {
+              date: "02.11.2025",
+              columns: [
+                {
+                  headerId: "station2_detail1",
+                  value: "П",
+                  color: "#ffeb3b",
+                  rowspan: 1,
+                  colspan: 1,
+                  draggable: true
+                }
+              ]
+            }
+          ]
+        };
+
+        return JSON.stringify(mockData);
+      });
+
+      // Установка Header Provider
+      VirtualizedTableAPI.setHeaderProvider([
+        {
+          id: "line_a",
+          parentId: null,
+          type: "line",
+          name: "Линия A",
+          metadata: { color: "#ff9800" }
+        },
+        {
+          id: "station1",
+          parentId: "line_a",
+          type: "station",
+          name: "Станция 1",
+          metadata: { color: "#f44336" }
+        },
+        {
+          id: "station1_detail1",
+          parentId: "station1",
+          type: "detail",
+          name: "Компонент 1",
+          metadata: { color: "#8d6e63" }
+        },
+        {
+          id: "station1_detail2",
+          parentId: "station1",
+          type: "detail",
+          name: "Компонент 2",
+          metadata: { color: "#795548" }
+        },
+        {
+          id: "station2",
+          parentId: "line_a",
+          type: "station",
+          name: "Станция 2",
+          metadata: { color: "#4caf50" }
+        },
+        {
+          id: "station2_detail1",
+          parentId: "station2",
+          type: "detail",
+          name: "Компонент 1",
+          metadata: { color: "#66bb6a" }
+        },
+        {
+          id: "station2_detail2",
+          parentId: "station2",
+          type: "detail",
+          name: "Компонент 2",
+          metadata: { color: "#4caf50" }
+        },
+        {
+          id: "station3",
+          parentId: "line_a",
+          type: "station",
+          name: "Станция 3",
+          metadata: { color: "#9c27b0" }
+        },
+        {
+          id: "station3_detail1",
+          parentId: "station3",
+          type: "detail",
+          name: "Компонент 1",
+          metadata: { color: "#ba68c8" }
+        }
+      ]);
+
+      // Обработчики событий
+      VirtualizedTableAPI.setOnCellDoubleClick((jsonString) => {
+        console.log('Double Click:', JSON.parse(jsonString));
+      });
+
+      VirtualizedTableAPI.setOnCellMove((jsonString) => {
+        console.log('Cell Move:', JSON.parse(jsonString));
+      });
+
+      VirtualizedTableAPI.setOnDataLoad((dataArray, startDate, batchSize) => {
+        console.log('Data Loaded:', dataArray.length, 'records for', startDate);
+      });
+
+      VirtualizedTableAPI.setOnError((error, context) => {
+        console.error('Error:', error, context);
+      });
+
+      // Включить режим редактирования
+      VirtualizedTableAPI.setEditMode(true);
+
+      console.log('✅ VirtualizedTableAPI configured');
+    }, 100);
+  });
+</script>
+</body>
 </html>

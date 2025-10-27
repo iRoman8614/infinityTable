@@ -1,4 +1,4 @@
-import { getContrastTextColor } from '@utils/colors';
+import { getContrastTextColor } from '@utils/colors.js';
 import DateSearch from './DateSearch';
 import './Table.css';
 
@@ -39,7 +39,7 @@ const TableHeader = ({ headerLevels, treeDepth, leafCount, onDateSearch }) => {
                 }}
             >
                 <span>Дата</span>
-                <DateSearch onSearch={onDateSearch} />
+                {/*<DateSearch onSearch={onDateSearch} />*/}
             </div>
 
             {/* Строки заголовков */}

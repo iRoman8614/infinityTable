@@ -1,4 +1,4 @@
-import { VISIBLE_HEADER_TYPES } from './constants';
+import { VISIBLE_HEADER_TYPES } from './constants.js';
 
 /**
  * Строит дерево заголовков из плоского массива

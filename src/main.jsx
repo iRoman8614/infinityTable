@@ -1,10 +1,14 @@
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import './index.css'
-import App from './App.jsx'
+// Полифил для import.meta (для production билда)
+if (typeof import.meta === 'undefined') {
+    // @ts-ignore
+    self.importMeta = { env: { DEV: false, PROD: true } };
+}
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <App />
-  </StrictMode>,
-)
+// Импортируем глобальное состояние ПЕРВЫМ
+import './state/virtualized-table-state.js';
+
+// Импортируем Web Component wrapper
+import './WebTableWrapper.js';
+
+console.log('[Main] VirtualizedTable bundle loaded');
+console.log('[Main] VirtualizedTableAPI available:', typeof VirtualizedTableAPI !== 'undefined');

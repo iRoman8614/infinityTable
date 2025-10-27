@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Virtualized Table</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    }
+  </style>
+</head>
+<body>
+
+<script>
+  window.hp = async function() {
+    console.log('[HP] Загрузка заголовков...');
+    await new Promise(resolve => setTimeout(resolve, 100));
+
+    return {
+      "headers": [
+        {
+          "id": "line1",
+          "parentId": "null",
+          "type": "NODE",
+          "name": "Линия А",
+          "metadata": {
+            "color": "#ff9800",
+            "tooltip": "Автоматизированная линия сборки",
+            "workCount": 15
+          }
+        },
+        {
+          "id": "station1",
+          "parentId": "line1",
+          "type": "ASSEMBLE",
+          "name": "Станция 1",
+          "metadata": {
+            "color": "#f44336",
+            "tooltip": "Начальная станция сборки",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station2",
+          "parentId": "line1",
+          "type": "ASSEMBLE",
+          "name": "Станция 2",
+          "metadata": {
+            "color": "#f44336",
+            "tooltip": "Промежуточная станция",
+            "workCount": 4
+          }
+        },
+        {
+          "id": "station3",
+          "parentId": "line1",
+          "type": "ASSEMBLE",
+          "name": "Станция 3",
+          "metadata": {
+            "color": "#f44336",
+            "tooltip": "Финальная станция",
+            "workCount": 5
+          }
+        },
+        {
+          "id": "station1_detail1",
+          "parentId": "station1",
+          "type": "COMPONENT",
+          "name": "Компонент 1",
+          "metadata": {
+            "color": "#9c27b0",
+            "tooltip": "Контрольная станция",
+            "workCount": 2
+          }
+        },
+        {
+          "id": "station1_detail2",
+          "parentId": "station1",
+          "type": "COMPONENT",
+          "name": "Деталь 1",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station1_detail3",
+          "parentId": "station1",
+          "type": "COMPONENT",
+          "name": "компонент 1",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station2_detail1",
+          "parentId": "station2",
+          "type": "COMPONENT",
+          "name": "Компонент 2",
+          "metadata": {
+            "color": "#9c27b0",
+            "tooltip": "Контрольная станция",
+            "workCount": 2
+          }
+        },
+        {
+          "id": "station2_detail2",
+          "parentId": "station1",
+          "type": "COMPONENT",
+          "name": "Деталь 2",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station2_detail3",
+          "parentId": "station2",
+          "type": "COMPONENT",
+          "name": "компонент 2",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station3_detail1",
+          "parentId": "station3",
+          "type": "COMPONENT",
+          "name": "Компонент 3",
+          "metadata": {
+            "color": "#9c27b0",
+            "tooltip": "Контрольная станция",
+            "workCount": 2
+          }
+        },
+        {
+          "id": "station3_detail2",
+          "parentId": "station3",
+          "type": "COMPONENT",
+          "name": "Деталь 3",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+        {
+          "id": "station3_detail3",
+          "parentId": "station3",
+          "type": "COMPONENT",
+          "name": "компонент 3",
+          "metadata": {
+            "color": "#795548",
+            "tooltip": "Упаковочная станция",
+            "workCount": 3
+          }
+        },
+      ]
+    };
+  };
+
+
+  window.dp = async function(startDate, direction, batchSize) {
+    console.log(`[DP] startDate: ${startDate}, direction: ${direction}, batchSize: ${batchSize}`);
+
+    const fullData = {
+      "data": [
+        {
+          "date": "01.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#ff5722",
+              "rowspan": 2,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#4caf50",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "color": "#2196f3",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "02.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#ffeb3b",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "03.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#9c27b0",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "О",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#e91e63",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "04.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#00bcd4",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#ff9800",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "05.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#795548",
+              "rowspan": 3,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "О",
+              "color": "#607d8b",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "06.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "М",
+              "color": "#3f51b5",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "07.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#cddc39",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "color": "#009688",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "08.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "О",
+              "color": "#ff5252",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#69f0ae",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "09.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#448aff",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#e040fb",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "10.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#ffab40",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "О",
+              "color": "#8d6e63",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "11.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#b0bec5",
+              "colspan": 2,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#ef5350",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "12.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#66bb6a",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#42a5f5",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "13.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "О",
+              "color": "#ab47bc",
+              "rowspan": 2,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#ffa726",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "14.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#8d6e63",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "О",
+              "color": "#78909c",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "15.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#ef9a9a",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "М",
+              "color": "#80cbc4",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "16.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#9fa8da",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "О",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#ce93d8",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "17.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#ffcc80",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#bcaaa4",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "18.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#b0bec5",
+              "rowspan": 3,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#ef5350",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "19.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "О",
+              "color": "#66bb6a",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#42a5f5",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "20.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "М",
+              "color": "#ab47bc",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "21.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "О",
+              "color": "#ffa726",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#8d6e63",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "22.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#78909c",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#ef9a9a",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "О",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "23.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#80cbc4",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#9fa8da",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "24.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#ce93d8",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "О",
+              "color": "#ffcc80",
+              "colspan": 2,
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "25.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#bcaaa4",
+              "rowspan": 2,
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "М",
+              "color": "#b0bec5",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "26.10.2025",
+          "columns": [
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#ff5252",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "О",
+              "color": "#69f0ae",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "27.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "М",
+              "color": "#448aff",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "П",
+              "color": "#e040fb",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "Р",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "28.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "О",
+              "color": "#ffab40",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "М",
+              "color": "#8d6e63",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "29.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "П",
+              "color": "#ef5350",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "Р",
+              "color": "#66bb6a",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "М",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        },
+        {
+          "date": "30.10.2025",
+          "columns": [
+            {
+              "headerId": "station1",
+              "value": "Р",
+              "color": "#42a5f5",
+              "draggable": true,
+              "children": [
+                { "id": "station1_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station1_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station1_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station2",
+              "value": "О",
+              "color": "#ab47bc",
+              "draggable": true,
+              "children": [
+                { "id": "station2_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station2_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station2_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            },
+            {
+              "headerId": "station3",
+              "value": "П",
+              "color": "#ffa726",
+              "draggable": true,
+              "children": [
+                { "id": "station3_detail1", "name": "Деталь 1", "value": "450" },
+                { "id": "station3_detail2", "name": "Деталь 2", "value": "320" },
+                { "id": "station3_detail3", "name": "Деталь 3", "value": "320" }
+              ]
+            }
+          ]
+        }
+      ]
+    };
+
+    return JSON.stringify(fullData);
+  };
+
+  console.log('✅ Функции window.hp и window.dp определены');
+</script>
+
+<virtualized-table hp="hp" dp="dp" edit-mode="true"></virtualized-table>
+
+<script src="./virtualized-table.js"></script>
+
+<script>
+  setTimeout(function() {
+    if (typeof VirtualizedTableAPI !== 'undefined') {
+      VirtualizedTableAPI.setOnCellDoubleClick(function(jsonString) {
+        console.log('👆 Double Click:', JSON.parse(jsonString));
+      });
+
+      VirtualizedTableAPI.setOnCellMove(function(jsonString) {
+        console.log('🔄 Cell Move:', JSON.parse(jsonString));
+      });
+
+      VirtualizedTableAPI.setOnDataLoad(function(dataArray, startDate, batchSize) {
+        console.log('📥 Data Loaded:', dataArray.length, 'records for', startDate);
+      });
+
+      VirtualizedTableAPI.setOnError(function(error, context) {
+        console.error('❌ Error:', error, context);
+      });
+
+      console.log('✅ API настроен');
+      console.log('📊 State:', VirtualizedTableAPI.getState());
+    }
+  }, 500);
+</script>
+</body>
+</html>

@@ -1,9 +1,10 @@
+import React from 'react';
 import { EditModeProvider } from '@/context/EditModeContext';
 import EditModeToggle from '@/components/EditModeToggle/EditModeToggle';
 import InfiniteTable from '@/components/Table/InfiniteTable';
 import './App.css';
 
-function App() {
+const VirtualizedTableComponent = () => {
     return (
         <EditModeProvider>
             <div className="app">
@@ -12,6 +13,6 @@ function App() {
             </div>
         </EditModeProvider>
     );
-}
+};
 
-export default App;
+export default VirtualizedTableComponent;
